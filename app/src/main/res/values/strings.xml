@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Easy Markdown</string>
+
+    <string name="version">1.0</string>
+    <string name="about_developer">
+        Created with care by Nithish Gajula
+    </string>
+
+    <string name="support_info">
+        Thank you for choosing EasyMarkdown! This application is a personal project that I develop and maintain in my free time, and every bit of your support is genuinely appreciated.
+        Whether it’s help with design, icon creation, adding translations for different languages, or simply leaving a tip, any form of support makes a difference.\n\n
+        If you encounter any issues with application, please feel free to reach out. And consider rating the app on the Play Store.\n\n
+        Please note: In-app purchases for tips are a way to support development and do not unlock any additional features And Internet access permission is requested solely to retrieve embedded images from online sources only within your markdown.
+    </string>
+
+    <string name="email_info">mailto:gajulanithish000@gmail.com</string>
+    <string name="github_info">https://github.com/nithish-gajula</string>
+    <string name="instagram_info">https://www.instagram.com/nithish_gajula/</string>
+    <string name="linkedin_info">https://www.linkedin.com/in/nithish-gajula-90130b227/</string>
+
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+</resources>

@@ -1,0 +1,30 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.EasyMarkdown" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue_jeans</item>
+        <item name="colorPrimaryVariant">@color/steel_blue</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_jeans</item>
+        <item name="colorSecondaryVariant">@color/steel_blue</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="RoundedButton_Blue">
+        <item name="backgroundTint">@color/blue_jeans</item>
+    </style>
+
+    <style name="RoundedButton_Red">
+        <item name="backgroundTint">@color/sunset_orange</item>
+    </style>
+</resources>
