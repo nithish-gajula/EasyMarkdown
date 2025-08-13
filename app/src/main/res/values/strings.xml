@@ -2,17 +2,20 @@
     <string name="app_name">Easy Markdown</string>
 
     <string name="version">1.0</string>
-    <string name="about_developer">
-        Created with care by Nithish Gajula
-    </string>
+    <string name="about_developer">Created with care by Nithish Gajula</string>
 
     <string name="support_info">
-        Thank you for choosing EasyMarkdown! This application is a personal project that I develop and maintain in my free time, and every bit of your support is genuinely appreciated.
+        Thank you for choosing EasyMarkdown! This application is a personal project and maintain in my free time, and every bit of your support is genuinely appreciated.
         Whether it’s help with design, icon creation, adding translations for different languages, or simply leaving a tip, any form of support makes a difference.\n\n
         If you encounter any issues with application, please feel free to reach out. And consider rating the app on the Play Store.\n\n
         Please note: In-app purchases for tips are a way to support development and do not unlock any additional features And Internet access permission is requested solely to retrieve embedded images from online sources only within your markdown.
     </string>
 
+    <string name="about_site_developer">
+        Visit our <a href="https://nithish-gajula.github.io">developer site</a> for more info
+    </string>
+
+    <string name="site_developer">https://nithish-gajula.github.io</string>
     <string name="email_info">mailto:gajulanithish000@gmail.com</string>
     <string name="github_info">https://github.com/nithish-gajula</string>
     <string name="instagram_info">https://www.instagram.com/nithish_gajula/</string>
@@ -20,4 +23,32 @@
 
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
+    <string name="about_app_icon">App Icon</string>
+    <string name="about_app_name_2l">Easy\nMarkdown</string>
+    <string name="about_version">Version</string>
+    <string name="about_gmail_icon">Gmail Icon</string>
+    <string name="about_github_icon">Github Icon</string>
+    <string name="about_instagram_icon">Instagram Icon</string>
+    <string name="about_linkedin_icon">Linkedin Icon</string>
+    <string name="editor_tab_space">Tab Space</string>
+    <string name="editor_bold">Bold</string>
+    <string name="editor_italic">Italic</string>
+    <string name="editor_strike_through">Strikethrough</string>
+    <string name="editor_heading">Heading</string>
+    <string name="editor_quote">Block Quote</string>
+    <string name="editor_unordered_list">UnOrdered List</string>
+    <string name="editor_code">Code</string>
+    <string name="editor_code_block">Code Block</string>
+    <string name="editor_table">Table</string>
+    <string name="editor_divider">Divider</string>
+    <string name="editor_image">Image</string>
+    <string name="editor_link">Link</string>
+    <string name="editor_word_count">Word Count</string>
+    <string name="support_heart_icon">Heart Icon</string>
+    <string name="support_rate_app">Rate Easy Markdown</string>
+    <string name="support_tip_50">Tip the Developer - ₹50.00</string>
+    <string name="support_tip_100">Buy me a Coffee - ₹100.00</string>
+    <string name="setting_divider_thickness">Choose Divider Thickness</string>
+    <string name="ok">OK</string>
+    <string name="setting_link_setup_title">Link Setup</string>
 </resources>

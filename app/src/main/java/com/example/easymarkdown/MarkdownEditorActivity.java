@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +21,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,13 +42,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class MarkdownEditorActivity extends AppCompatActivity {
+    private static final int CREATE_FILE_REQUEST_CODE = 1;
+    private static final int OPEN_FILE_REQUEST_CODE = 2;
+    NavigationView navigationView;
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawerLayout;
     private long pressedTime = 0;
     private EditText markdownEditor;
     private TextView drawerVersion;
-    NavigationView navigationView;
     private ImageView tabIcon;
     private ImageView boldIcon;
     private ImageView italicIcon;
@@ -66,8 +65,6 @@ public class MarkdownEditorActivity extends AppCompatActivity {
     private ImageView imageIcon;
     private ImageView linkIcon;
     private ImageView wordCountIcon;
-    private static final int CREATE_FILE_REQUEST_CODE = 1;
-    private static final int OPEN_FILE_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,7 +259,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
                         if (radioButton1.isChecked()) {
                             markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n---");
                         } else if (radioButton2.isChecked()) {
-                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n\n---");
+                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n\n===");
                         }
                         dialog.dismiss();
                     }
@@ -454,7 +451,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
 
     public void showBottomSheetDialogForTable() {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.table_setting_layout, (ViewGroup) null));
+        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.table_setting_dialog, (ViewGroup) null));
         final EditText insertedColumns = (EditText) bottomSheetDialog.findViewById(R.id.insertColumns);
         final EditText insertedRows = (EditText) bottomSheetDialog.findViewById(R.id.insertRows);
         Button abortButton = (Button) bottomSheetDialog.findViewById(R.id.abortButton);
@@ -540,7 +537,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
 
     public void showBottomSheetDialogForWordCount() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.word_count_layout, (ViewGroup) null));
+        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.word_count_dialog, (ViewGroup) null));
         ((TextView) bottomSheetDialog.findViewById(R.id.actualCount)).setText(countLines() + " / " + countWords() + " / " + countCharacters());
         bottomSheetDialog.show();
     }

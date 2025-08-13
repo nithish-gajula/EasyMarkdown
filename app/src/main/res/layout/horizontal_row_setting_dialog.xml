@@ -10,8 +10,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/atkinsonregular"
-        android:text="Choose Divider Thickness"
+        android:fontFamily="@font/atkinson_regular"
+        android:text="@string/setting_divider_thickness"
         android:gravity="center"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -46,6 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 </LinearLayout>

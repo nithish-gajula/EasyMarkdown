@@ -32,7 +32,7 @@ public class SupportActivity extends AppCompatActivity {
         });
 
         SpannableString spannableString = new SpannableString(getString(R.string.support_info));
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 461, 474, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 446, 459, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         support_info.setText(spannableString);
 

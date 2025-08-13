@@ -23,6 +23,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
+        android:contentDescription="@string/support_heart_icon"
         android:src="@mipmap/heart_512" />
 
     <TextView
@@ -43,7 +44,7 @@
         android:layout_marginVertical="10dp"
         android:background="@drawable/round_shape"
         android:padding="5dp"
-        android:text="Rate Easy Markdown"
+        android:text="@string/support_rate_app"
         android:textAllCaps="false"
         android:visibility="gone"
         android:textColor="@android:color/white"
@@ -57,7 +58,7 @@
         android:layout_marginVertical="10dp"
         android:background="@drawable/round_shape"
         android:padding="5dp"
-        android:text="Tip the Developer - ₹50.00"
+        android:text="@string/support_tip_50"
         android:textAllCaps="false"
         android:visibility="gone"
         android:textColor="@android:color/white"
@@ -72,7 +73,7 @@
         android:background="@drawable/round_shape"
         android:padding="5dp"
         android:visibility="gone"
-        android:text="Buy me a Coffee - ₹100.00"
+        android:text="@string/support_tip_100"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="15sp" />

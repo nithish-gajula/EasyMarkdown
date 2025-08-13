@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".MarkdownEditorActivity"
-    tools:openDrawer="end">
+    tools:openDrawer="start">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginTop="3dp"
             android:background="@drawable/gray_border"
-            android:layout_marginHorizontal="15dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -39,128 +39,140 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Tab Space"
+                    android:contentDescription="@string/editor_tab_space"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_tab" />
+                    android:src="@drawable/ic_tab"
+                    android:tooltipText="Tab Space" />
 
                 <ImageView
                     android:id="@+id/boldIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Bold"
+                    android:contentDescription="@string/editor_bold"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_bold" />
+                    android:src="@drawable/ic_bold"
+                    android:tooltipText="Bold" />
 
                 <ImageView
                     android:id="@+id/italicIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Italic"
+                    android:contentDescription="@string/editor_italic"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_italic" />
+                    android:src="@drawable/ic_italic"
+                    android:tooltipText="Italic" />
 
                 <ImageView
                     android:id="@+id/strikeIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Strikethrough"
+                    android:contentDescription="@string/editor_strike_through"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_strikethrough" />
+                    android:src="@drawable/ic_strikethrough"
+                    android:tooltipText="Strikethrough" />
 
                 <ImageView
                     android:id="@+id/headerIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Heading"
+                    android:contentDescription="@string/editor_heading"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_heading" />
+                    android:src="@drawable/ic_heading"
+                    android:tooltipText="Heading" />
 
                 <ImageView
                     android:id="@+id/quoteIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Block Quote"
+                    android:contentDescription="@string/editor_quote"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_quote" />
+                    android:src="@drawable/ic_quote"
+                    android:tooltipText="Block Quote" />
 
                 <ImageView
                     android:id="@+id/listIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="UnOrdered List"
+                    android:contentDescription="@string/editor_unordered_list"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_list" />
+                    android:src="@drawable/ic_list"
+                    android:tooltipText="UnOrdered List" />
 
                 <ImageView
                     android:id="@+id/codeIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Code"
+                    android:contentDescription="@string/editor_code"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_code" />
+                    android:src="@drawable/ic_code"
+                    android:tooltipText="Code" />
 
                 <ImageView
                     android:id="@+id/codeBlockIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Code Block"
+                    android:contentDescription="@string/editor_code_block"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_code_block" />
+                    android:src="@drawable/ic_code_block"
+                    android:tooltipText="Code Block" />
 
                 <ImageView
                     android:id="@+id/tableIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Table"
+                    android:contentDescription="@string/editor_table"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_table" />
+                    android:src="@drawable/ic_table"
+                    android:tooltipText="Table" />
 
                 <ImageView
                     android:id="@+id/horizontalRowIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Divider"
+                    android:contentDescription="@string/editor_divider"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_horizontal_rule" />
+                    android:src="@drawable/ic_horizontal_rule"
+                    android:tooltipText="Divider" />
 
                 <ImageView
                     android:id="@+id/imgIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Image"
+                    android:contentDescription="@string/editor_image"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_image" />
+                    android:src="@drawable/ic_image"
+                    android:tooltipText="Image" />
 
                 <ImageView
                     android:id="@+id/linkIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Link"
+                    android:contentDescription="@string/editor_link"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_link" />
+                    android:src="@drawable/ic_link"
+                    android:tooltipText="Link" />
 
                 <ImageView
                     android:id="@+id/wordIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="5dp"
-                    android:tooltipText="Word Count"
+                    android:contentDescription="@string/editor_word_count"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_word_count" />
-
-
+                    android:src="@drawable/ic_word_count"
+                    android:tooltipText="Word Count" />
 
 
             </LinearLayout>
@@ -182,8 +194,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:inputType="textMultiLine"
                 android:imeOptions="actionSend"
+                android:inputType="textMultiLine"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
