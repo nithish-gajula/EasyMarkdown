@@ -18,7 +18,7 @@
         app:titleTextColor="@android:color/white" />
 
 
-    <com.github.imcloudfloating.markdown.MarkdownIt
+    <com.example.easymarkdown.MarkdownIt
         android:id="@+id/markdown_help_markdownIt"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

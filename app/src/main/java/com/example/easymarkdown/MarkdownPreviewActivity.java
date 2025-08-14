@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.github.imcloudfloating.markdown.MarkdownIt;
+import com.example.easymarkdown.MarkdownIt;
 
 public class MarkdownPreviewActivity extends AppCompatActivity {
 

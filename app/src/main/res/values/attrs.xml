@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MarkdownIt">
+        <attr name="markdownString" format="string" />
+        <attr name="fitSystemTheme" format="boolean" />
+        <attr name="darkTheme" format="boolean" />
+    </declare-styleable>
+</resources>
