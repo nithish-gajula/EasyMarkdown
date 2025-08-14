@@ -259,7 +259,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
                         if (radioButton1.isChecked()) {
                             markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n---");
                         } else if (radioButton2.isChecked()) {
-                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n\n===");
+                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n\n***");
                         }
                         dialog.dismiss();
                     }
