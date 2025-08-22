@@ -10,20 +10,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.easymarkdown.MarkdownIt;
-
 public class MarkdownPreviewActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    private MarkdownIt markdownView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_markdown_preview);
 
-        markdownView = findViewById(R.id.markdown_view);
-        toolbar = findViewById(R.id.toolbar);
+        MarkdownIt markdownView = findViewById(R.id.markdown_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Check if the Intent has markdown content
@@ -48,7 +43,7 @@ public class MarkdownPreviewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_editor) {
-            super.onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">Easy Markdown</string>
 
-    <string name="version">1.0</string>
     <string name="about_developer">Created with care by Nithish Gajula</string>
 
     <string name="support_info">
+        Thank you for choosing EasyMarkdown!\n
+        This application is a personal project and maintain in my free time, and every bit of your support is genuinely appreciated.
+        Whether it’s help with design, icon creation, adding translations for different languages, or simply leaving a tip, any form of support makes a difference.\n\n
+        If you encounter any issues with application, please feel free to reach out. And consider rating the app on the Play Store.\n\n
+        Please note: Internet access permission is requested solely to retrieve embedded images from online sources only within your markdown.
+    </string>
+
+    <string name="support_info_with_tips">
         Thank you for choosing EasyMarkdown! This application is a personal project and maintain in my free time, and every bit of your support is genuinely appreciated.
         Whether it’s help with design, icon creation, adding translations for different languages, or simply leaving a tip, any form of support makes a difference.\n\n
         If you encounter any issues with application, please feel free to reach out. And consider rating the app on the Play Store.\n\n
@@ -21,11 +28,16 @@
     <string name="instagram_info">https://www.instagram.com/nithish_gajula/</string>
     <string name="linkedin_info">https://www.linkedin.com/in/nithish-gajula-90130b227/</string>
 
+    <string name="lines_count">Lines: %1$d</string>
+    <string name="words_count">Words: %1$d</string>
+    <string name="characters_count">Characters: %1$d</string>
+
+
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
+    <string name="version_info_error">Version info not available</string>
     <string name="about_app_icon">App Icon</string>
     <string name="about_app_name_2l">Easy\nMarkdown</string>
-    <string name="about_version">Version</string>
     <string name="about_gmail_icon">Gmail Icon</string>
     <string name="about_github_icon">Github Icon</string>
     <string name="about_instagram_icon">Instagram Icon</string>
@@ -51,4 +63,7 @@
     <string name="setting_divider_thickness">Choose Divider Thickness</string>
     <string name="ok">OK</string>
     <string name="setting_link_setup_title">Link Setup</string>
+    <string name="switch_to_help_raw">View Raw</string>
+    <string name="switch_to_help_preview">Preview</string>
+    <string name="copy_raw_text">Copy Raw Text</string>
 </resources>

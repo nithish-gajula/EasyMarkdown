@@ -5,27 +5,28 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,59 +46,75 @@ public class MarkdownEditorActivity extends AppCompatActivity {
     private static final int CREATE_FILE_REQUEST_CODE = 1;
     private static final int OPEN_FILE_REQUEST_CODE = 2;
     NavigationView navigationView;
+    private ActivityResultLauncher<Intent> openFileLauncher;
+    private ActivityResultLauncher<Intent> createFileLauncher;
     private Toolbar toolbar;
-    private ActionBarDrawerToggle toggle;
     private DrawerLayout drawerLayout;
     private long pressedTime = 0;
     private EditText markdownEditor;
-    private TextView drawerVersion;
-    private ImageView tabIcon;
-    private ImageView boldIcon;
-    private ImageView italicIcon;
-    private ImageView strikeIcon;
-    private ImageView headerIcon;
-    private ImageView quoteIcon;
-    private ImageView listIcon;
-    private ImageView codeIcon;
-    private ImageView codeBlockIcon;
-    private ImageView tableIcon;
-    private ImageView horizontalRowIcon;
-    private ImageView imageIcon;
-    private ImageView linkIcon;
-    private ImageView wordCountIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_markdown_editor);
 
+        openFileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Uri uri = data.getData();
+                            if (uri != null) {
+                                loadMarkdownFile(uri);
+                            }
+                        }
+                    }
+                }
+        );
+
+        createFileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Uri uri = data.getData();
+                            if (uri != null) {
+                                saveMarkdownFile(uri);
+                            }
+                        }
+                    }
+                }
+        );
+
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-        drawerVersion = findViewById(R.id.drawer_version);
-        tabIcon = findViewById(R.id.tabIcon);
-        boldIcon = findViewById(R.id.boldIcon);
-        italicIcon = findViewById(R.id.italicIcon);
-        strikeIcon = findViewById(R.id.strikeIcon);
-        headerIcon = findViewById(R.id.headerIcon);
-        quoteIcon = findViewById(R.id.quoteIcon);
-        listIcon = findViewById(R.id.listIcon);
-        codeIcon = findViewById(R.id.codeIcon);
-        codeBlockIcon = findViewById(R.id.codeBlockIcon);
-        linkIcon = findViewById(R.id.linkIcon);
-        imageIcon = findViewById(R.id.imgIcon);
-        horizontalRowIcon = findViewById(R.id.horizontalRowIcon);
-        tableIcon = findViewById(R.id.tableIcon);
-        wordCountIcon = findViewById(R.id.wordIcon);
+        TextView drawerVersion = findViewById(R.id.drawer_version);
+        ImageView tabIcon = findViewById(R.id.tabIcon);
+        ImageView boldIcon = findViewById(R.id.boldIcon);
+        ImageView italicIcon = findViewById(R.id.italicIcon);
+        ImageView strikeIcon = findViewById(R.id.strikeIcon);
+        ImageView headerIcon = findViewById(R.id.headerIcon);
+        ImageView quoteIcon = findViewById(R.id.quoteIcon);
+        ImageView listIcon = findViewById(R.id.listIcon);
+        ImageView codeIcon = findViewById(R.id.codeIcon);
+        ImageView codeBlockIcon = findViewById(R.id.codeBlockIcon);
+        ImageView linkIcon = findViewById(R.id.linkIcon);
+        ImageView imageIcon = findViewById(R.id.imgIcon);
+        ImageView horizontalRowIcon = findViewById(R.id.horizontalRowIcon);
+        ImageView tableIcon = findViewById(R.id.tableIcon);
+        ImageView wordCountIcon = findViewById(R.id.wordIcon);
 
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         markdownEditor = findViewById(R.id.markdown_editor);
-        drawerVersion.setText(getString(R.string.version));
 
         Intent intent = getIntent();
         String uriString = intent.getStringExtra("fileUri");
@@ -106,32 +123,45 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             loadMarkdownFile(uri);
         }
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_help) {
-                    Intent intent = new Intent(MarkdownEditorActivity.this, HelpActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_support) {
-                    Intent intent = new Intent(MarkdownEditorActivity.this, SupportActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_relaunch) {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            drawerVersion.setText(version);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("MarkdownEditorActivity", "Failed to get package info", e);
+            drawerVersion.setText(R.string.version_info_error);
+        }
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_help) {
+                Intent navIntent = new Intent(MarkdownEditorActivity.this, HelpActivity.class);
+                startActivity(navIntent);
+            } else if (item.getItemId() == R.id.nav_support) {
+                Intent navIntent = new Intent(MarkdownEditorActivity.this, SupportActivity.class);
+                startActivity(navIntent);
+            } else if (item.getItemId() == R.id.nav_relaunch) {
+                if (!markdownEditor.getText().toString().isEmpty()) {
+                    openSaveDialog("Restart");
+                } else {
                     finishAffinity();
                     startActivity(new Intent(MarkdownEditorActivity.this, MarkdownEditorActivity.class));
-                } else if (item.getItemId() == R.id.nav_about) {
-                    Intent intent = new Intent(MarkdownEditorActivity.this, AboutActivity.class);
-                    startActivity(intent);
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+            } else if (item.getItemId() == R.id.nav_about) {
+                Intent navIntent = new Intent(MarkdownEditorActivity.this, AboutActivity.class);
+                startActivity(navIntent);
             }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
+
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
+                } else if (!markdownEditor.getText().toString().trim().isEmpty()) {
+                    openSaveDialog("Exit");
                 } else {
                     if (pressedTime + 2000 > System.currentTimeMillis()) {
                         finishAffinity(); // Closes the app
@@ -143,186 +173,152 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             }
         });
 
-        tabIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int startPosition = markdownEditor.getSelectionStart();
-                markdownEditor.getText().insert(startPosition, "    ");
-            }
+        tabIcon.setOnClickListener(v -> {
+            int startPosition = markdownEditor.getSelectionStart();
+            markdownEditor.getText().insert(startPosition, "    ");
         });
 
-        boldIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                int selectionEnd = markdownEditor.getSelectionEnd();
-                Editable text = markdownEditor.getText();
-                text.insert(selectionStart, "**");
-                text.insert(selectionEnd + 2, "**");
-            }
+        boldIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            int selectionEnd = markdownEditor.getSelectionEnd();
+            Editable text = markdownEditor.getText();
+            text.insert(selectionStart, "**");
+            text.insert(selectionEnd + 2, "**");
         });
 
 
-        italicIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                int selectionEnd = markdownEditor.getSelectionEnd();
-                Editable text = markdownEditor.getText();
-                text.insert(selectionStart, "*");
-                text.insert(selectionEnd + 1, "*");
-            }
+        italicIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            int selectionEnd = markdownEditor.getSelectionEnd();
+            Editable text = markdownEditor.getText();
+            text.insert(selectionStart, "*");
+            text.insert(selectionEnd + 1, "*");
         });
 
-        strikeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                int selectionEnd = markdownEditor.getSelectionEnd();
-                Editable text = markdownEditor.getText();
-                text.insert(selectionStart, "~~");
-                text.insert(selectionEnd + 2, "~~");
-            }
+        strikeIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            int selectionEnd = markdownEditor.getSelectionEnd();
+            Editable text = markdownEditor.getText();
+            text.insert(selectionStart, "~~");
+            text.insert(selectionEnd + 2, "~~");
         });
 
-        headerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                int selectionEnd = markdownEditor.getSelectionEnd();
-                Editable text = markdownEditor.getText();
-                text.insert(selectionStart, "# ");
-                text.insert(selectionEnd + 2, "\n");
-            }
+        headerIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            int selectionEnd = markdownEditor.getSelectionEnd();
+            Editable text = markdownEditor.getText();
+            text.insert(selectionStart, "# ");
+            text.insert(selectionEnd + 2, "\n");
         });
 
-        quoteIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                markdownEditor.getText().insert(markdownEditor.getSelectionStart(), ">");
-            }
+        quoteIcon.setOnClickListener(v -> markdownEditor.getText().insert(markdownEditor.getSelectionStart(), ">"));
+
+
+        listIcon.setOnClickListener(v -> markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "* "));
+
+        codeIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            int selectionEnd = markdownEditor.getSelectionEnd();
+            Editable text = markdownEditor.getText();
+            text.insert(selectionStart, "`");
+            text.insert(selectionEnd + 1, "`");
         });
 
-        listIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "* ");
-            }
+        codeBlockIcon.setOnClickListener(v -> {
+            int selectionStart = markdownEditor.getSelectionStart();
+            markdownEditor.getText().insert(selectionStart, "\n``` python\n print(\"Hello Python\")\n```");
+            int i4 = selectionStart + 10;
+            markdownEditor.setSelection(i4, i4);
         });
 
-        codeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                int selectionEnd = markdownEditor.getSelectionEnd();
-                Editable text = markdownEditor.getText();
-                text.insert(selectionStart, "`");
-                text.insert(selectionEnd + 1, "`");
-            }
+        tableIcon.setOnClickListener(v -> showBottomSheetDialogForTable());
+
+        horizontalRowIcon.setOnClickListener(v -> markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n---"));
+
+        imageIcon.setOnClickListener(v -> {
+            int startPosition = markdownEditor.getSelectionStart();
+            markdownEditor.getText().insert(startPosition, "![Alt_text](image_url)");
         });
 
-        codeBlockIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectionStart = markdownEditor.getSelectionStart();
-                markdownEditor.getText().insert(selectionStart, "\n``` python\n print(\"Hello Python\")\n```");
-                int i4 = selectionStart + 10;
-                markdownEditor.setSelection(i4, i4);
+        linkIcon.setOnClickListener(v -> showBottomSheetDialogForLink());
 
-            }
+        wordCountIcon.setOnClickListener(v -> {
+            LayoutInflater inflater = LayoutInflater.from(v.getContext());
+            View dialogView = inflater.inflate(R.layout.word_count_dialog, null);
+            TextView linesCount = dialogView.findViewById(R.id.linesCount);
+            TextView wordsCount = dialogView.findViewById(R.id.wordsCount);
+            TextView charactersCount = dialogView.findViewById(R.id.charactersCount);
+            Button okButton = dialogView.findViewById(R.id.okButton);
+
+            linesCount.setText(getString(R.string.lines_count, countLines()));
+            wordsCount.setText(getString(R.string.words_count, countWords()));
+            charactersCount.setText(getString(R.string.characters_count, countCharacters()));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setView(dialogView);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+
+            okButton.setOnClickListener(v1 -> dialog.dismiss());
+
+            dialog.show();
         });
-
-        tableIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBottomSheetDialogForTable();
-            }
-        });
-
-        horizontalRowIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = LayoutInflater.from(v.getContext());
-                View dialogView = inflater.inflate(R.layout.horizontal_row_setting_dialog, null);
-                RadioButton radioButton1 = dialogView.findViewById(R.id.radioButton1);
-                RadioButton radioButton2 = dialogView.findViewById(R.id.radioButton2);
-                Button okButton = dialogView.findViewById(R.id.okButton);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setView(dialogView);
-                AlertDialog dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(true);
-
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (radioButton1.isChecked()) {
-                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n---");
-                        } else if (radioButton2.isChecked()) {
-                            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "\n\n***");
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        });
-
-        imageIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int startPosition = markdownEditor.getSelectionStart();
-                markdownEditor.getText().insert(startPosition, "![Alt_text](image_url)");
-            }
-        });
-
-        linkIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBottomSheetDialogForLink();
-            }
-        });
-
-        wordCountIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBottomSheetDialogForWordCount();
-            }
-        });
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.editor_toolbar_menu, menu);
-
         return true;
     }
 
-    private void highlightSearchText(String query) {
-        String text = markdownEditor.getText().toString();
-        int startIndex = text.indexOf(query);
-
-        if (startIndex >= 0) {
-            markdownEditor.requestFocus();
-            markdownEditor.setSelection(startIndex, startIndex + query.length());
-        } else {
-            // Clear selection if query not found
-            markdownEditor.setSelection(0, 0);
-        }
+    private void openSaveDialog(String action) {
+        new AlertDialog.Builder(MarkdownEditorActivity.this)
+                .setTitle("Unsaved Changes")
+                .setMessage("You have unsaved changes. Would you like to save your file before exiting?")
+                .setPositiveButton("Save", (dialog, which) -> {
+                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("text/markdown");
+                    intent.putExtra(Intent.EXTRA_TITLE, "my_markdown_file.md");
+                    createFileLauncher.launch(intent);
+                })
+                .setNegativeButton(action, (dialog, which) -> {
+                    finishAffinity(); // Closes the app
+                    if (action.equals("Restart")) {
+                        startActivity(new Intent(MarkdownEditorActivity.this, MarkdownEditorActivity.class));
+                    }
+                })
+                .setNeutralButton("Cancel", null)
+                .show();
     }
+
+//    private void highlightSearchText(String query) {
+//        String text = markdownEditor.getText().toString();
+//        int startIndex = text.indexOf(query);
+//
+//        if (startIndex >= 0) {
+//            markdownEditor.requestFocus();
+//            markdownEditor.setSelection(startIndex, startIndex + query.length());
+//        } else {
+//            // Clear selection if query not found
+//            markdownEditor.setSelection(0, 0);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String markdownContent = markdownEditor.getText().toString().trim();
         if (item.getItemId() == R.id.menu_copy) {
             String textToCopy = markdownEditor.getText().toString(); // Get text from EditText
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Copied Text", textToCopy);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(getApplicationContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            if (textToCopy.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Write something before copying", Toast.LENGTH_SHORT).show();
+            } else {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Copied Text", textToCopy);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getApplicationContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
             return true;
         } else if (item.getItemId() == R.id.menu_clear) {
             markdownEditor.setText("");
@@ -334,7 +330,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("text/markdown");
                 intent.putExtra(Intent.EXTRA_TITLE, "my_markdown_file.md");
-                startActivityForResult(intent, CREATE_FILE_REQUEST_CODE);
+                createFileLauncher.launch(intent);
             } else {
                 Toast.makeText(MarkdownEditorActivity.this, "Please write some content before saving.", Toast.LENGTH_SHORT).show();
             }
@@ -355,7 +351,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("text/markdown");
-            startActivityForResult(intent, OPEN_FILE_REQUEST_CODE); // Use a unique request code
+            openFileLauncher.launch(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -402,16 +398,9 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
             }
-            // Assuming you have an EditText named markdownEditor to display content
             markdownEditor.setText(stringBuilder.toString());
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Simulate a click on the second menu item
-                    onOptionsItemSelected(toolbar.getMenu().findItem(R.id.menu_preview));
-                }
-            }, 500);
+            new Handler().postDelayed(() -> onOptionsItemSelected(toolbar.getMenu().findItem(R.id.menu_preview)), 500);
 
         } catch (IOException e) {
             Toast.makeText(this, "Error opening file", Toast.LENGTH_SHORT).show();
@@ -420,97 +409,73 @@ public class MarkdownEditorActivity extends AppCompatActivity {
 
     public void showBottomSheetDialogForLink() {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.link_setting_dialog, (ViewGroup) null));
-        final EditText insertedLink = (EditText) bottomSheetDialog.findViewById(R.id.insertLink);
-        final EditText insertedAltText = (EditText) bottomSheetDialog.findViewById(R.id.insertAltText);
-        Button abortButton = (Button) bottomSheetDialog.findViewById(R.id.abortButton);
-        Button confirmButton = (Button) bottomSheetDialog.findViewById(R.id.confirmButton);
+        View dialogView = getLayoutInflater().inflate(R.layout.link_setting_dialog, bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet), false);
+        bottomSheetDialog.setContentView(dialogView);
+        final EditText insertedLink = dialogView.findViewById(R.id.insertLink);
+        final EditText insertedAltText = dialogView.findViewById(R.id.insertAltText);
+        Button abortButton = dialogView.findViewById(R.id.abortButton);
+        Button confirmButton = dialogView.findViewById(R.id.confirmButton);
 
-        abortButton.setOnClickListener(new View.OnClickListener() {
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                if (insertedLink.getText().toString().isEmpty()) {
-                    insertedLink.setText("link?");
-                    return;
-                }
-                if (insertedAltText.getText().toString().isEmpty()) {
-                    insertedAltText.setText("Alt Text");
-                }
-                markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "[" + ((Object) insertedAltText.getText()) + "](" + ((Object) insertedLink.getText()) + ")");
+        abortButton.setOnClickListener(view -> bottomSheetDialog.dismiss());
+
+        confirmButton.setOnClickListener(view -> {
+            if (insertedLink.getText().toString().trim().isEmpty()) {
+                insertedLink.setError("Please insert the link");
+            } else if (insertedAltText.getText().toString().trim().isEmpty()) {
+                insertedAltText.setError("Please insert alternate text");
+            } else {
+                markdownEditor.getText().insert(markdownEditor.getSelectionStart(), "[" + (insertedAltText.getText()) + "](" + (insertedLink.getText()) + ")");
                 bottomSheetDialog.dismiss();
             }
         });
         bottomSheetDialog.show();
     }
 
-    public void showBottomSheetDialogForTable() {
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.table_setting_dialog, (ViewGroup) null));
-        final EditText insertedColumns = (EditText) bottomSheetDialog.findViewById(R.id.insertColumns);
-        final EditText insertedRows = (EditText) bottomSheetDialog.findViewById(R.id.insertRows);
-        Button abortButton = (Button) bottomSheetDialog.findViewById(R.id.abortButton);
-        Button confirmButton = (Button) bottomSheetDialog.findViewById(R.id.confirmButton);
-        final CheckBox leftCheckBox = (CheckBox) bottomSheetDialog.findViewById(R.id.LeftBox);
-        final CheckBox centerCheckBox = (CheckBox) bottomSheetDialog.findViewById(R.id.CenterBox);
-        final CheckBox rightCheckBox = (CheckBox) bottomSheetDialog.findViewById(R.id.RightBox);
-        leftCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override // android.widget.CompoundButton.OnCheckedChangeListener
-            public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
-                if (leftCheckBox.isChecked()) {
-                    rightCheckBox.setChecked(false);
-                    centerCheckBox.setChecked(false);
-                }
+    private void showBottomSheetDialogForTable() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.table_setting_dialog, bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet), false);
+        bottomSheetDialog.setContentView(view);
+
+        EditText insertedColumns = view.findViewById(R.id.insertColumns);
+        EditText insertedRows = view.findViewById(R.id.insertRows);
+
+        CheckBox cbLeft = view.findViewById(R.id.LeftBox);
+        CheckBox cbCenter = view.findViewById(R.id.CenterBox);
+        CheckBox cbRight = view.findViewById(R.id.RightBox);
+
+        Button btnCancel = view.findViewById(R.id.abortButton);
+        Button btnConfirm = view.findViewById(R.id.confirmButton);
+
+        // Only one checkbox allowed (like radio buttons)
+        View.OnClickListener checkBoxClickListener = v -> {
+            cbLeft.setChecked(v.getId() == R.id.LeftBox);
+            cbCenter.setChecked(v.getId() == R.id.CenterBox);
+            cbRight.setChecked(v.getId() == R.id.RightBox);
+        };
+
+        cbLeft.setOnClickListener(checkBoxClickListener);
+        cbCenter.setOnClickListener(checkBoxClickListener);
+        cbRight.setOnClickListener(checkBoxClickListener);
+
+        btnCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
+        btnConfirm.setOnClickListener(v -> {
+            int i;
+            if (insertedColumns.getText().toString().isEmpty() || Integer.parseInt(insertedColumns.getText().toString()) <= 0) {
+                insertedColumns.setText("1");
             }
-        });
-        rightCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override // android.widget.CompoundButton.OnCheckedChangeListener
-            public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
-                if (rightCheckBox.isChecked()) {
-                    leftCheckBox.setChecked(false);
-                    centerCheckBox.setChecked(false);
-                }
+            if (insertedRows.getText().toString().isEmpty() || Integer.parseInt(insertedRows.getText().toString()) <= 0) {
+                insertedRows.setText("1");
             }
-        });
-        centerCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override // android.widget.CompoundButton.OnCheckedChangeListener
-            public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
-                if (centerCheckBox.isChecked()) {
-                    rightCheckBox.setChecked(false);
-                    leftCheckBox.setChecked(false);
-                }
+            if (cbLeft.isChecked()) {
+                i = 0;
+            } else {
+                i = cbRight.isChecked() ? 2 : 1;
             }
+            markdownEditor.getText().insert(markdownEditor.getSelectionStart(), MarkdownEditorActivity.this.AssembleTable(Integer.parseInt(insertedColumns.getText().toString()), Integer.parseInt(insertedRows.getText().toString()), i));
+            bottomSheetDialog.dismiss();
         });
-        abortButton.setOnClickListener(new View.OnClickListener() {
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                int i;
-                if (insertedColumns.getText().toString().isEmpty() || Integer.parseInt(insertedColumns.getText().toString()) <= 0) {
-                    insertedColumns.setText("1");
-                }
-                if (insertedRows.getText().toString().isEmpty() || Integer.parseInt(insertedRows.getText().toString()) <= 0) {
-                    insertedRows.setText("1");
-                }
-                if (leftCheckBox.isChecked()) {
-                    i = 0;
-                } else {
-                    i = rightCheckBox.isChecked() ? 2 : 1;
-                }
-                markdownEditor.getText().insert(markdownEditor.getSelectionStart(), MarkdownEditorActivity.this.AssembleTable(Integer.parseInt(insertedColumns.getText().toString()), Integer.parseInt(insertedRows.getText().toString()), i));
-                bottomSheetDialog.dismiss();
-            }
-        });
+
         bottomSheetDialog.show();
     }
 
@@ -533,13 +498,6 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             sb.append("\n");
         }
         return sb.toString();
-    }
-
-    public void showBottomSheetDialogForWordCount() {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.word_count_dialog, (ViewGroup) null));
-        ((TextView) bottomSheetDialog.findViewById(R.id.actualCount)).setText(countLines() + " / " + countWords() + " / " + countCharacters());
-        bottomSheetDialog.show();
     }
 
     private int countLines() {

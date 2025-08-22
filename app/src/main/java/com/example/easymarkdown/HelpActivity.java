@@ -1,7 +1,16 @@
 package com.example.easymarkdown;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,14 +29,36 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         MarkdownIt markdownHelpMarkdownIt = findViewById(R.id.markdown_help_markdownIt);
-
         Toolbar toolbar = findViewById(R.id.help_toolbar);
 
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
-        String markdownText = loadMarkdownFromAssets();
-        markdownHelpMarkdownIt.setMarkdownString(markdownText);
+        String markdownRawText = loadMarkdownFromAssets();
+        markdownHelpMarkdownIt.setMarkdownString(markdownRawText);
 
+        TextView helpTextView = findViewById(R.id.markdown_help_textview);
+        helpTextView.setText(markdownRawText);
+
+        Button switchButton = findViewById(R.id.switch_view_button);
+        switchButton.setOnClickListener(view -> {
+            if (switchButton.getText() == getString(R.string.switch_to_help_raw)) {
+                markdownHelpMarkdownIt.setVisibility(View.GONE);
+                helpTextView.setVisibility(View.VISIBLE);
+                switchButton.setText(R.string.switch_to_help_preview);
+            } else {
+                helpTextView.setVisibility(View.GONE);
+                markdownHelpMarkdownIt.setVisibility(View.VISIBLE);
+                switchButton.setText(R.string.switch_to_help_raw);
+            }
+        });
+
+        ImageButton copyRawTextButton = findViewById(R.id.copy_raw_text);
+        copyRawTextButton.setOnClickListener(view -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Raw Markdown Text", markdownRawText);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getApplicationContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private String loadMarkdownFromAssets() {
@@ -40,7 +71,8 @@ public class HelpActivity extends AppCompatActivity {
                 sb.append(line).append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("HelpActivity", "Failed to load markdown file", e);
+            return "Error loading help file.";
         }
         return sb.toString();
     }
