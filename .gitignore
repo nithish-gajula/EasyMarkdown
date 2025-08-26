@@ -21,6 +21,7 @@ captures/
 *.apk
 *.jks
 *.keystore
+*.aab
 
 # === Test & coverage ===
 test-results/
