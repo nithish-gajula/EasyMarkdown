@@ -1,4 +1,4 @@
-package com.example.easymarkdown;
+package com.nithishgajula.easymarkdown;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.easymarkdown;
+package com.nithishgajula.easymarkdown;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.easymarkdown", appContext.getPackageName());
+        assertEquals("com.nithishgajula.easymarkdown", appContext.getPackageName());
     }
 }

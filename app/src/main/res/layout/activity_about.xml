@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/alice_blue"
     android:orientation="vertical"
-    tools:context=".AboutActivity">
+    tools:context="com.nithishgajula.easymarkdown.AboutActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/about_toolbar"

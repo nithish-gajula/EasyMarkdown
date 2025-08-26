@@ -161,17 +161,17 @@ With a reference later in the document defining the URL location:
  
 **Inline image:** 
 
-![Alt text](https://markdown-here.com/img/icon256.png)
+![The Dojocat](https://octodex.github.com/images/dojocat.jpg)
  
 
 
 **Reference-style image:**
 
-![Alt text][image-id]
+![The Collabocats][image-id]
 
 With a reference later in the document defining the URL location:
 
-[image-id]: https://octodex.github.com/images/dojocat.jpg "The Dojocat" 
+[image-id]: https://octodex.github.com/images/collabocats.jpg 
  
 --- 
 # Tables 

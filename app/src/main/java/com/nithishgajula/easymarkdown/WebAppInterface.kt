@@ -1,4 +1,4 @@
-package com.example.easymarkdown
+package com.nithishgajula.easymarkdown
 
 import android.content.Context
 import android.content.res.Configuration

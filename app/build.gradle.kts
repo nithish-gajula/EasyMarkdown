@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.easymarkdown"
+    namespace = "com.nithishgajula.easymarkdown"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.easymarkdown"
+        applicationId = "com.nithishgajula.easymarkdown"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

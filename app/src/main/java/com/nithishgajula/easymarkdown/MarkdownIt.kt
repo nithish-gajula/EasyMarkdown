@@ -1,4 +1,4 @@
-package com.example.easymarkdown
+package com.nithishgajula.easymarkdown
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.webkit.*
 import android.widget.FrameLayout
+import com.nithishgajula.easymarkdown.R
 import org.apache.commons.text.StringEscapeUtils
 
 /**

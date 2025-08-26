@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HelpActivity">
+    tools:context="com.nithishgajula.easymarkdown.HelpActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/help_toolbar"
@@ -52,7 +52,7 @@
     </LinearLayout>
 
 
-    <com.example.easymarkdown.MarkdownIt
+    <com.nithishgajula.easymarkdown.MarkdownIt
         android:id="@+id/markdown_help_markdownIt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

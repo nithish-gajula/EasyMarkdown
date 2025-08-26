@@ -1,4 +1,4 @@
-package com.example.easymarkdown;
+package com.nithishgajula.easymarkdown;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

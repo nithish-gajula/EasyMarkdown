@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MarkdownPreviewActivity">
+    tools:context="com.nithishgajula.easymarkdown.MarkdownPreviewActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/preview_toolbar" />
 
-    <com.example.easymarkdown.MarkdownIt
+    <com.nithishgajula.easymarkdown.MarkdownIt
         android:id="@+id/markdown_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
