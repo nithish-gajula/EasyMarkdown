@@ -41,7 +41,7 @@ public class HelpActivity extends AppCompatActivity {
 
         Button switchButton = findViewById(R.id.switch_view_button);
         switchButton.setOnClickListener(view -> {
-            if (switchButton.getText() == getString(R.string.switch_to_help_raw)) {
+            if (switchButton.getText().toString().equals(getString(R.string.switch_to_help_raw))) {
                 markdownHelpMarkdownIt.setVisibility(View.GONE);
                 helpTextView.setVisibility(View.VISIBLE);
                 switchButton.setText(R.string.switch_to_help_preview);
