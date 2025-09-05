@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -24,13 +25,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -55,6 +62,12 @@ public class MarkdownEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().setNavigationBarContrastEnforced(false);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_markdown_editor);
 
@@ -89,7 +102,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
         );
 
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.editor_toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         TextView drawerVersion = findViewById(R.id.drawer_version);
@@ -263,6 +276,11 @@ public class MarkdownEditorActivity extends AppCompatActivity {
 
             dialog.show();
         });
+
+        applyDisplayCutouts();
+        applyAppBarCutouts();
+        applyWindowInsets();
+
     }
 
     @Override
@@ -272,10 +290,49 @@ public class MarkdownEditorActivity extends AppCompatActivity {
         return true;
     }
 
+    private void applyDisplayCutouts() {
+        // Works in portrait mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editor_content), (v, insets) -> {
+            Insets bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.displayCutout());
+
+            v.setPadding(bars.left, 0, bars.right, 0);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
+
+    private void applyAppBarCutouts() {
+        // Works in Landscape mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editor_appbar), (v, insets) -> {
+            Insets appbars = insets.getInsets(
+                    WindowInsetsCompat.Type.statusBars());
+
+            v.setPadding(0, appbars.top, 0, 0);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
+
+    private void applyWindowInsets() {
+        // Navigation view content in landscape and portrait
+        NavigationView navView = findViewById(R.id.nav_view);
+        ViewCompat.setOnApplyWindowInsetsListener(navView, (v, windowInsets) -> {
+            Insets sysInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(
+                    sysInsets.left,
+                    v.getPaddingTop(),
+                    v.getPaddingRight(),
+                    sysInsets.bottom
+            );
+            return windowInsets; // Let children receive the insets too
+        });
+    }
+
     private void openSaveDialog(String action) {
-        new AlertDialog.Builder(MarkdownEditorActivity.this)
+        AlertDialog dialogA = new AlertDialog.Builder(MarkdownEditorActivity.this)
                 .setTitle("Unsaved Changes")
-                .setMessage("You have unsaved changes. Would you like to save your file before exiting?")
+                .setMessage("You have unsaved changes. Would you like to save your file before " + action + "?")
                 .setPositiveButton("Save", (dialog, which) -> {
                     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -284,13 +341,28 @@ public class MarkdownEditorActivity extends AppCompatActivity {
                     createFileLauncher.launch(intent);
                 })
                 .setNegativeButton(action, (dialog, which) -> {
-                    finishAffinity(); // Closes the app
                     if (action.equals("Restart")) {
+                        finishAffinity();
                         startActivity(new Intent(MarkdownEditorActivity.this, MarkdownEditorActivity.class));
+                    } else if (action.equals("Open")) {
+                        markdownEditor.setText("");
+
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("text/markdown");
+                        openFileLauncher.launch(intent);
+                    } else {
+                        finishAffinity(); // Closes the app
                     }
                 })
                 .setNeutralButton("Cancel", null)
                 .show();
+
+        int buttonColor = ContextCompat.getColor(this, R.color.blue_jeans);
+
+        dialogA.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(buttonColor);
+        dialogA.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(buttonColor);
+        dialogA.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(buttonColor);
     }
 
 //    private void highlightSearchText(String query) {
@@ -332,7 +404,7 @@ public class MarkdownEditorActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_TITLE, "my_markdown_file.md");
                 createFileLauncher.launch(intent);
             } else {
-                Toast.makeText(MarkdownEditorActivity.this, "Please write some content before saving.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MarkdownEditorActivity.this, "Please write something before saving.", Toast.LENGTH_SHORT).show();
             }
             return true;
         } else if (item.getItemId() == R.id.menu_preview) {
@@ -346,13 +418,18 @@ public class MarkdownEditorActivity extends AppCompatActivity {
             }
             return true;
         } else if (item.getItemId() == R.id.menu_open) {
-            markdownEditor.setText("");
 
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("text/markdown");
-            openFileLauncher.launch(intent);
-            return true;
+            if (!markdownEditor.getText().toString().trim().isEmpty()) {
+                openSaveDialog("Open");
+            } else {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("text/markdown");
+                openFileLauncher.launch(intent);
+                return true;
+            }
+
+
         }
         return super.onOptionsItemSelected(item);
     }

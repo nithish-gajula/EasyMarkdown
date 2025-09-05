@@ -1,16 +1,19 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.EasyMarkdown" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.EasyMarkdown" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_jeans</item>
+        <item name="colorPrimary">@color/rich_electric_blue</item>
         <item name="colorPrimaryVariant">@color/rich_electric_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue_jeans</item>
         <item name="colorSecondaryVariant">@color/rich_electric_blue</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!--        <item name="android:statusBarColor">@color/rich_electric_blue</item>-->
+        <!--        <item name="android:windowLightStatusBar">false</item>-->
+        <!--        <item name="android:navigationBarColor">@android:color/white</item>-->
     </style>
 
     <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

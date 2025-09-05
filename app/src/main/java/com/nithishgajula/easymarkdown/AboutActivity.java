@@ -4,18 +4,30 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().setNavigationBarContrastEnforced(false);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
@@ -28,44 +40,70 @@ public class AboutActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.about_toolbar);
 
         try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            PackageInfo pInfo;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                pInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.PackageInfoFlags.of(0));
+            } else {
+                pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            }
             String version = pInfo.versionName;
-            appVersionName.setText(version);
+            appVersionName.setText(version != null ? version : getString(R.string.version_info_error));
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("AboutActivity", "Failed to get package info", e);
             appVersionName.setText(R.string.version_info_error);
         }
 
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
-        developerSite.setOnClickListener(v -> {
-            Uri uri = Uri.parse(getString(R.string.site_developer));
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        });
+        developerSite.setOnClickListener(v -> openUrl(getString(R.string.site_developer)));
+        gmail.setOnClickListener(v -> sendEmail(getString(R.string.email_info)));
+        github.setOnClickListener(v -> openUrl(getString(R.string.github_info)));
+        instagram.setOnClickListener(v -> openUrl(getString(R.string.instagram_info)));
+        linkedin.setOnClickListener(v -> openUrl(getString(R.string.linkedin_info)));
 
-        gmail.setOnClickListener(v -> {
-            Uri uri = Uri.parse(getString(R.string.email_info));
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        });
+        applyDisplayCutouts();
+        applyAppBarCutouts();
+    }
 
-        github.setOnClickListener(v -> {
-            Uri uri = Uri.parse(getString(R.string.github_info));
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    final void openUrl(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
-        });
+        } else {
+            Toast.makeText(this, "No browser or suitable app found to open this link.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        instagram.setOnClickListener(v -> {
-            Uri uri = Uri.parse(getString(R.string.instagram_info));
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    final void sendEmail(String emailUri) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse(emailUri));
+        if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
-        });
+        } else {
+            Toast.makeText(this, "No browser or suitable app found to open this link.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        linkedin.setOnClickListener(v -> {
-            Uri uri = Uri.parse(getString(R.string.linkedin_info));
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+    private void applyDisplayCutouts() {
+        // Works in portrait mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.about_content), (v, insets) -> {
+            Insets bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.displayCutout());
+
+            v.setPadding(bars.left, 0, bars.right, bars.bottom);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
+
+    private void applyAppBarCutouts() {
+        // Works in Landscape mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.about_appbar), (v, insets) -> {
+            Insets appbars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(0, appbars.top, 0, 0);
+            return WindowInsetsCompat.CONSUMED;
         });
     }
 }

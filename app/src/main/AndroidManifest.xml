@@ -4,6 +4,24 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,29 +31,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyMarkdown"
-        tools:targetApi="31">
+        tools:targetApi="35">
         <activity
-            android:name="com.nithishgajula.easymarkdown.HelpActivity"
+            android:name=".HelpActivity"
             android:exported="false" />
         <activity
-            android:name="com.nithishgajula.easymarkdown.SupportActivity"
+            android:name=".SupportActivity"
             android:exported="false" />
         <activity
-            android:name="com.nithishgajula.easymarkdown.AboutActivity"
+            android:name=".AboutActivity"
             android:exported="false" />
         <activity
-            android:name="com.nithishgajula.easymarkdown.MarkdownPreviewActivity"
+            android:name=".MarkdownPreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.nithishgajula.easymarkdown.MarkdownEditorActivity"
+            android:name=".MarkdownEditorActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.nithishgajula.easymarkdown.LoadMarkdownActivity"
+            android:name=".LoadMarkdownActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -46,10 +65,10 @@
                 <data android:scheme="content" />
                 <data android:scheme="file" />
                 <data android:mimeType="text/markdown" />
-                <data android:mimeType="text/plain"/>
-                <data android:mimeType="text/html"/>
-                <data android:mimeType="application/json"/>
-                <data android:mimeType="text/xml"/>
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="text/xml" />
             </intent-filter>
         </activity>
     </application>

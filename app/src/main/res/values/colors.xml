@@ -5,11 +5,13 @@
     <color name="white">#FFFFFF</color>
 
     <!--  Color names are chosen from https://www.color-name.com  -->
+    <!--    Alternate for color names https://colornamer.robertcooper.me/-->
     <color name="sunset_orange">#FF5A4E</color>
     <color name="alice_blue">#EEF7FC</color>
     <color name="blue_jeans">#68BBE3</color>
     <color name="rich_electric_blue">#0E86D4</color>
     <color name="steel_blue">#4682B4</color>
+    <color name="apple">#4CAF50</color>
     <color name="dim_gray">#696969</color>
     <color name="gunmetal">#252B36</color>
 

@@ -1,3 +1,6 @@
+<a name="top"></a>
+[⬇️ Jump to Bottom](#bottom)
+
 # Headings
  
 To create headings/titles, use `#` symbols. The number of `#` symbols indicates the heading level from 1 to 6.  
@@ -237,9 +240,12 @@ This is a <ins>error</ins> box
 :::
 
 
+<a name="bottom"></a>
+[⬆️ Back to Top](#top)
+  
+  
+  
+  
+  
+  
 End of file.
-
-
-
-
-

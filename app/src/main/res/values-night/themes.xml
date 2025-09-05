@@ -9,9 +9,11 @@
         <item name="colorSecondary">@color/blue_jeans</item>
         <item name="colorSecondaryVariant">@color/steel_blue</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!--        <item name="android:statusBarColor">@color/rich_electric_blue</item>-->
+        <!--        <item name="android:windowLightStatusBar">false</item>-->
+        <!--        <item name="android:navigationBarColor">@android:color/white</item>-->
     </style>
 
     <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

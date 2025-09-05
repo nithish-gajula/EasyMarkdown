@@ -1,82 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.nithishgajula.easymarkdown.SupportActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/support_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/support_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryVariant"
-        app:navigationIcon="@drawable/arrow_back_24"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Support"
-        android:layout_marginBottom="40dp"
-        app:titleTextColor="@android:color/white" />
+        android:background="@color/rich_electric_blue">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/support_heart_icon"
-        android:src="@mipmap/heart_512" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/support_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/rich_electric_blue"
+            android:elevation="1dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/arrow_back_24"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Support"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white" />
 
-    <TextView
-        android:id="@+id/support_info_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/support_info"
-        android:textSize="18sp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        style="@style/RoundedButton_Blue"
+    <ScrollView
+        android:id="@+id/support_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/round_shape"
-        android:padding="5dp"
-        android:text="@string/support_rate_app"
-        android:textAllCaps="false"
-        android:visibility="gone"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        style="@style/RoundedButton_Red"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/round_shape"
-        android:padding="5dp"
-        android:text="@string/support_tip_50"
-        android:textAllCaps="false"
-        android:visibility="gone"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    <Button
-        style="@style/RoundedButton_Red"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/round_shape"
-        android:padding="5dp"
-        android:visibility="gone"
-        android:text="@string/support_tip_100"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/support_heart_icon"
+                android:src="@mipmap/heart_512" />
+
+            <TextView
+                android:id="@+id/support_info_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/atkinson_regular"
+                android:gravity="center"
+                android:text="@string/support_info"
+                android:textSize="16sp" />
+
+            <Button
+                style="@style/RoundedButton_Blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/round_shape"
+                android:padding="5dp"
+                android:text="@string/support_rate_app"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:visibility="visible" />
+
+            <Button
+                style="@style/RoundedButton_Red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/round_shape"
+                android:padding="5dp"
+                android:text="@string/support_tip_50"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <Button
+                style="@style/RoundedButton_Red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/round_shape"
+                android:padding="5dp"
+                android:text="@string/support_tip_100"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

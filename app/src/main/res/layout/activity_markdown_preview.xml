@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nithishgajula.easymarkdown.MarkdownPreviewActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/preview_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/preview_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/rich_electric_blue">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/preview_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/rich_electric_blue"
+            android:elevation="1dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/pencil"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Preview"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.nithishgajula.easymarkdown.MarkdownIt
         android:id="@+id/markdown_view"
