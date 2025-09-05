@@ -2,23 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/alice_blue"
     android:orientation="vertical"
     tools:context="com.nithishgajula.easymarkdown.AboutActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/about_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/about_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryVariant"
-        app:navigationIcon="@drawable/arrow_back_24"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="About"
-        app:titleTextColor="@android:color/white" />
+        android:background="@color/rich_electric_blue">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/rich_electric_blue"
+            android:elevation="1dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/arrow_back_24"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="About"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/about_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -59,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:fontFamily="@font/roboto_slab_light"
-            android:textColor="@color/black"
             android:text="@string/about_developer"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
@@ -69,8 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:fontFamily="@font/roboto_slab_light"
-            android:textColor="@color/black"
             android:text="@string/about_site_developer"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -119,8 +132,5 @@
 
 
         </LinearLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

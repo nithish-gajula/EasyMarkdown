@@ -11,13 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().setNavigationBarContrastEnforced(false);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
@@ -43,6 +53,7 @@ public class AboutActivity extends AppCompatActivity {
             appVersionName.setText(R.string.version_info_error);
         }
 
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         developerSite.setOnClickListener(v -> openUrl(getString(R.string.site_developer)));
@@ -50,6 +61,9 @@ public class AboutActivity extends AppCompatActivity {
         github.setOnClickListener(v -> openUrl(getString(R.string.github_info)));
         instagram.setOnClickListener(v -> openUrl(getString(R.string.instagram_info)));
         linkedin.setOnClickListener(v -> openUrl(getString(R.string.linkedin_info)));
+
+        applyDisplayCutouts();
+        applyAppBarCutouts();
     }
 
     final void openUrl(String url) {
@@ -70,5 +84,26 @@ public class AboutActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No browser or suitable app found to open this link.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void applyDisplayCutouts() {
+        // Works in portrait mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.about_content), (v, insets) -> {
+            Insets bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.displayCutout());
+
+            v.setPadding(bars.left, 0, bars.right, bars.bottom);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
+
+    private void applyAppBarCutouts() {
+        // Works in Landscape mode
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.about_appbar), (v, insets) -> {
+            Insets appbars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(0, appbars.top, 0, 0);
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 }

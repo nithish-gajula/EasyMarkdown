@@ -7,69 +7,89 @@
     android:orientation="vertical"
     tools:context="com.nithishgajula.easymarkdown.HelpActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/help_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/help_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryVariant"
-        app:navigationIcon="@drawable/arrow_back_24"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Markdown Tutorial"
-        app:titleTextColor="@android:color/white" />
+        android:background="@color/rich_electric_blue">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/help_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/rich_electric_blue"
+            android:elevation="1dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/arrow_back_24"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Markdown Tutorial"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginBottom="2dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/switch_view_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/atkinson_regular"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="@string/switch_to_help_raw" />
-
-        <ImageButton
-            android:id="@+id/copy_raw_text"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="2dp"
-            android:background="@drawable/bg_round_button"
-            android:clickable="true"
-            android:contentDescription="@string/copy_raw_text"
-            android:focusable="true"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_copy_dark"/>
-
-    </LinearLayout>
-
-
-    <com.nithishgajula.easymarkdown.MarkdownIt
-        android:id="@+id/markdown_help_markdownIt"
+        android:id="@+id/help_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:orientation="vertical"
+        android:padding="1dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/markdown_help_textview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:visibility="gone" />
-    </ScrollView>
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/switch_view_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/atkinson_regular"
+                android:text="@string/switch_to_help_raw"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/copy_raw_text"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="2dp"
+                android:background="@drawable/bg_round_button"
+                android:clickable="true"
+                android:contentDescription="@string/copy_raw_text"
+                android:focusable="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_copy_dark" />
+
+        </LinearLayout>
+
+        <com.nithishgajula.easymarkdown.MarkdownIt
+            android:id="@+id/markdown_help_markdownIt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/markdown_help_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </ScrollView>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
