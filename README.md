@@ -6,6 +6,9 @@
 <img alt="" src="./docs/images/phoneScreenshots/3.png" style="width: 24%" />
 <img alt="" src="./docs/images/phoneScreenshots/4.png" style="width: 24%" />
 <img alt="" src="./docs/images/phoneScreenshots/5.png" style="width: 24%" />
+<img alt="" src="./docs/images/phoneScreenshots/6.png" style="width: 24%" />
+<img alt="" src="./docs/images/phoneScreenshots/7.png" style="width: 24%" />
+<img alt="" src="./docs/images/phoneScreenshots/8.png" style="width: 24%" />
 </p>
 
 **Easy Markdown** is a simple and easy-to-use app for writing Markdown files on your Android device! 📝✨
