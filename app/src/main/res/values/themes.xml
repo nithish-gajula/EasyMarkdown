@@ -10,10 +10,6 @@
         <item name="colorSecondaryVariant">@color/rich_electric_blue</item>
         <item name="colorOnSecondary">@color/black</item>
 
-        <!-- Status bar color. -->
-        <!--        <item name="android:statusBarColor">@color/rich_electric_blue</item>-->
-        <!--        <item name="android:windowLightStatusBar">false</item>-->
-        <!--        <item name="android:navigationBarColor">@android:color/white</item>-->
     </style>
 
     <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -28,6 +24,10 @@
 
     <style name="RoundedButton_Red">
         <item name="backgroundTint">@color/sunset_orange</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
     </style>
 
 </resources>

@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/rich_electric_blue"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:popupTheme="@style/PopupMenuStyle"
                 app:title="Editor"
                 app:titleTextAppearance="@style/ToolbarTitleStyle"
                 app:titleTextColor="@color/white" />
@@ -51,7 +51,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="3dp"
+                    android:layout_marginVertical="3dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -62,7 +63,8 @@
                         android:contentDescription="@string/editor_tab_space"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_tab"
-                        android:tooltipText="Tab Space" />
+                        android:tooltipText="Tab Space"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/boldIcon"
@@ -72,7 +74,8 @@
                         android:contentDescription="@string/editor_bold"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_bold"
-                        android:tooltipText="Bold" />
+                        android:tooltipText="Bold"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/italicIcon"
@@ -82,7 +85,8 @@
                         android:contentDescription="@string/editor_italic"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_italic"
-                        android:tooltipText="Italic" />
+                        android:tooltipText="Italic"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/strikeIcon"
@@ -92,7 +96,8 @@
                         android:contentDescription="@string/editor_strike_through"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_strikethrough"
-                        android:tooltipText="Strikethrough" />
+                        android:tooltipText="Strikethrough"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/headerIcon"
@@ -102,7 +107,8 @@
                         android:contentDescription="@string/editor_heading"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_heading"
-                        android:tooltipText="Heading" />
+                        android:tooltipText="Heading"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/quoteIcon"
@@ -112,7 +118,8 @@
                         android:contentDescription="@string/editor_quote"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_quote"
-                        android:tooltipText="Block Quote" />
+                        android:tooltipText="Block Quote"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/listIcon"
@@ -122,7 +129,8 @@
                         android:contentDescription="@string/editor_unordered_list"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_list"
-                        android:tooltipText="UnOrdered List" />
+                        android:tooltipText="UnOrdered List"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/codeIcon"
@@ -132,7 +140,8 @@
                         android:contentDescription="@string/editor_code"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_code"
-                        android:tooltipText="Code" />
+                        android:tooltipText="Code"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/codeBlockIcon"
@@ -142,7 +151,8 @@
                         android:contentDescription="@string/editor_code_block"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_code_block"
-                        android:tooltipText="Code Block" />
+                        android:tooltipText="Code Block"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/tableIcon"
@@ -152,7 +162,8 @@
                         android:contentDescription="@string/editor_table"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_table"
-                        android:tooltipText="Table" />
+                        android:tooltipText="Table"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/horizontalRowIcon"
@@ -162,7 +173,8 @@
                         android:contentDescription="@string/editor_divider"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_horizontal_rule"
-                        android:tooltipText="Divider" />
+                        android:tooltipText="Divider"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/imgIcon"
@@ -172,7 +184,8 @@
                         android:contentDescription="@string/editor_image"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_image"
-                        android:tooltipText="Image" />
+                        android:tooltipText="Image"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/linkIcon"
@@ -182,7 +195,8 @@
                         android:contentDescription="@string/editor_link"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_link"
-                        android:tooltipText="Link" />
+                        android:tooltipText="Link"
+                        app:tint="@color/icon_dark_tint" />
 
                     <ImageView
                         android:id="@+id/wordIcon"
@@ -192,7 +206,8 @@
                         android:contentDescription="@string/editor_word_count"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_word_count"
-                        android:tooltipText="Word Count" />
+                        android:tooltipText="Word Count"
+                        app:tint="@color/icon_dark_tint" />
 
 
                 </LinearLayout>
@@ -216,8 +231,9 @@
                     android:gravity="top"
                     android:imeOptions="actionSend"
                     android:inputType="textMultiLine"
-
                     android:textSize="18sp" />
+
+                <requestFocus />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
