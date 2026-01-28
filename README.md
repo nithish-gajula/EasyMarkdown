@@ -5,7 +5,6 @@
 ![Platform](https://img.shields.io/badge/platform-Android-blue?logo=androidstudio&logoColor=white)
 [![Google Play](https://img.shields.io/badge/Google_Play-Download-34A853?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.nithishgajula.easymarkdown)
 ![Min SDK](https://img.shields.io/badge/Android_Version-7+-yellow?logo=android&logoColor=white)
-[![Github](https://img.shields.io/badge/github-gray?logo=github)](https://github.com/nithish-gajula/ColorPicker)
 ![Language](https://img.shields.io/badge/Java-B07219)
 
 </div>
@@ -14,6 +13,22 @@
 Write, edit, and preview Markdown files seamlessly — all directly on your device.
 
 Perfect for **students, developers, writers, and Markdown enthusiasts**.
+
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="images/1.png" width="24%" />
+  <img src="images/2.png" width="24%" />
+  <img src="images/3.png" width="24%" />
+  <img src="images/4.png" width="24%" />
+</p>
+<p align="center">
+  <img src="images/5.png" width="24%" />
+  <img src="images/6.png" width="24%" />
+  <img src="images/7.png" width="24%" />
+  <img src="images/8.png" width="24%" />
+</p>
 
 
 ## ✨ Features
